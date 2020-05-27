@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -25,11 +26,11 @@ import java.util.List;
 public class ProductsData extends AppCompatActivity  {
     private AutoCompleteTextView autoCompleteTextView;
     private Button button;
+    private DataBaseForProducts databaseHelper;
     public Long dif;
-    private MyProduct myProduct;
     public Long datefor;
     private CalendarView calendarView;
-    private DataBaseForProducts databaseHelper;
+    private DataBaseForProducts databaseHelper1;
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class ProductsData extends AppCompatActivity  {
         autoCompleteTextView.setThreshold(1);
         String[] products = getResources().getStringArray(R.array.products);
         List<String> productList = Arrays.asList(products);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_dropdown_item_1line, productList);
         autoCompleteTextView.setAdapter(adapter);
         calendarView = (CalendarView) findViewById(R.id.calendarView_product);
@@ -78,6 +79,7 @@ public class ProductsData extends AppCompatActivity  {
             public void onClick(View v) {
                 String name = autoCompleteTextView.getText().toString();
                 if(!name.equals("") && databaseHelper.insertDataForHome(name,datefor)){
+
                     autoCompleteTextView.setText("");
                 }else{
                     Toast.makeText(ProductsData.this,"Продукт не был добавлен, попробуйте ещё раз",Toast.LENGTH_SHORT).show();

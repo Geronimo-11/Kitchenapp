@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,9 @@ public class BasketFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                //databaseHelper.loescheFach();
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                db.delete("Products_Basket","ID=?",new String[]{String.valueOf(arrayList.get(position).getId())});
+                db.close();
                 arrayList.remove(position);
                 recyclerForBasket.notifyDataSetChanged();
             }
@@ -72,16 +75,22 @@ public class BasketFragment extends Fragment {
             Toast.makeText(getContext(),"Добавьте продукт",Toast.LENGTH_SHORT).show();
         }else{
             while (cursor.moveToNext()){
-                arrayList.add(new MyProductBasket(cursor.getString(1)));
+                arrayList.add(new MyProductBasket(cursor.getInt(0),cursor.getString(1)));
                 arrayList.sort(new Comparator<MyProductBasket>() {
                     @Override
                     public int compare(MyProductBasket o1, MyProductBasket o2) {
-                        return o1.getProductName().compareTo(o2.productName);
+                        return o1.getProductName().compareTo(o2.getProductName());
                     }
                 });
             }
             recyclerForBasket = new RecyclerForBasket(root.getContext(), arrayList);
             recyclerView.setAdapter(recyclerForBasket);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        arrayList.clear();
+        viewData();
     }
 }

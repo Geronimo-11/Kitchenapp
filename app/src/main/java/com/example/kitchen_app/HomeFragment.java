@@ -2,9 +2,11 @@ package com.example.kitchen_app;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +61,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                //databaseHelper.deleteDataForHome(myProduct.getId());
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                db.delete("Products_Home","ID1=?",new String[]{String.valueOf(arrayList.get(position).getId())});
+                db.close();
                 arrayList.remove(position);
                 adapter1.notifyDataSetChanged();
             }
@@ -73,7 +77,7 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getContext(),"Добавьте продукт",Toast.LENGTH_SHORT).show();
         }else{
             while (cursor.moveToNext()) {
-                arrayList.add(new MyProduct(cursor.getString(1), cursor.getLong(2)));
+                arrayList.add(new MyProduct(cursor.getString(1), cursor.getLong(2),cursor.getInt(0)));
             }
             adapter1 = new RecyclerForHome(root.getContext(), arrayList);
             recyclerView.setAdapter(adapter1);
@@ -81,4 +85,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        arrayList.clear();
+        viewData1();
+    }
 }

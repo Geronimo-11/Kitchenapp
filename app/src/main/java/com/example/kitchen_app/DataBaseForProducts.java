@@ -65,12 +65,4 @@ public class DataBaseForProducts extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query1, null);
         return cursor;
     }
-    public int deleteDataForBasket(int position){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(DB_TABLE,"ID=?", new String[]{String.valueOf(position)});
-    }
-    public int deleteDataForHome(int position){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(DB_TABLE_ONE,"ID1=?", new String[]{String.valueOf(position)});
-    }
 }

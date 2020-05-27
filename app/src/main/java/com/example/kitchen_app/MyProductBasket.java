@@ -1,10 +1,19 @@
 package com.example.kitchen_app;
 
 public class MyProductBasket {
-    String productName;
-
-    public MyProductBasket(String productName) {
+    private String productName;
+    private int id;
+    public MyProductBasket( int id, String productName) {
         this.productName = productName;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getProductName() {
