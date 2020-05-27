@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class ProductsToAdd1 extends AppCompatActivity {
     private Button button;
+    private EditText editText;
     private DataBaseForProducts databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +43,21 @@ public class ProductsToAdd1 extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_dropdown_item_1line, productList);
         autoCompleteTextView.setAdapter(adapter);
+        editText = (EditText)findViewById(R.id.et1);
         button = (Button)findViewById(R.id.button_set_product1);
         databaseHelper = new DataBaseForProducts(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = autoCompleteTextView.getText().toString();
-                if(!name.equals("") && databaseHelper.insertDataForBasket(name)){
+                String quantity = editText.getText().toString();
+                if(!name.equals("") && !quantity.equals("") && databaseHelper.insertDataForBasket(name,Integer.parseInt(quantity))){
                     autoCompleteTextView.setText("");
+                    editText.setText("");
                 }else{
                     Toast.makeText(ProductsToAdd1.this,"Продукт не был добавлен, попробуйте ещё раз",Toast.LENGTH_SHORT).show();
                     autoCompleteTextView.setText("");
+                    editText.setText("");
                 }
             }
         });

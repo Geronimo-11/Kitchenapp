@@ -30,6 +30,7 @@ public class RecyclerForBasket extends RecyclerView.Adapter<RecyclerForBasket.Vi
     public void onBindViewHolder(RecyclerForBasket.ViewHolder holder, int position) {
         MyProductBasket product = products.get(position);
         holder.nameView.setText(product.getProductName());
+        holder.quantityView.setText(product.getQuantity() + " шт.");
     }
 
 
@@ -39,15 +40,13 @@ public class RecyclerForBasket extends RecyclerView.Adapter<RecyclerForBasket.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView nameView;
-
-        public TextView getNameView() {
-            return nameView;
-        }
+         TextView nameView;
+         TextView quantityView;
 
         ViewHolder(View view){
             super(view);
             nameView = (TextView) view.findViewById(R.id.tv_basket_name);
+            quantityView = (TextView) view.findViewById(R.id.tv_quantity);
         }
     }
 }

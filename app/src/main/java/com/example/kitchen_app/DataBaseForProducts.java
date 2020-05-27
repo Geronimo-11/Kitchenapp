@@ -13,18 +13,20 @@ public class DataBaseForProducts extends SQLiteOpenHelper {
     private static final String ID = "ID";
     private static final String ID1 = "ID1";
     private static final String NAME = "NAME";
+    private static final String QUANTITY = "QUANTITY";
     private static final String NAME1 = "NAME1";
     private static final String DATE = "DATE";
     private static final String CREATE_TABLE = "CREATE TABLE " + DB_TABLE +" ("+
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-            NAME + " TEXT " + ")";
+            NAME + " TEXT, " +
+            QUANTITY + " INTEGER " + ")";
     private static final String CREATE_TABLE1 = "CREATE TABLE " + DB_TABLE_ONE +" ("+
             ID1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
             NAME1 + " TEXT, " +
             DATE + " INTEGER " + ")";
 
     public DataBaseForProducts(Context context){
-        super(context,DB_NAME,null,13);
+        super(context,DB_NAME,null,14);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -38,10 +40,11 @@ public class DataBaseForProducts extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE_ONE);
         onCreate(db);
     }
-    public boolean insertDataForBasket(String name) {
+    public boolean insertDataForBasket(String name, int quantity) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
+        contentValues.put(QUANTITY, quantity);
         long result = database.insert(DB_TABLE, null, contentValues);
         return result != -1;
     }

@@ -71,11 +71,8 @@ public class BasketFragment extends Fragment {
     }
     public void viewData(){
         Cursor cursor = databaseHelper.viewDataForBasket();
-        if(cursor.getCount() == 0){
-            Toast.makeText(getContext(),"Добавьте продукт",Toast.LENGTH_SHORT).show();
-        }else{
             while (cursor.moveToNext()){
-                arrayList.add(new MyProductBasket(cursor.getInt(0),cursor.getString(1)));
+                arrayList.add(new MyProductBasket(cursor.getInt(0),cursor.getString(1),cursor.getInt(2)));
                 arrayList.sort(new Comparator<MyProductBasket>() {
                     @Override
                     public int compare(MyProductBasket o1, MyProductBasket o2) {
@@ -86,7 +83,6 @@ public class BasketFragment extends Fragment {
             recyclerForBasket = new RecyclerForBasket(root.getContext(), arrayList);
             recyclerView.setAdapter(recyclerForBasket);
         }
-    }
     @Override
     public void onResume() {
         super.onResume();

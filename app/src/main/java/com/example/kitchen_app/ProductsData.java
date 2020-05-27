@@ -28,6 +28,8 @@ public class ProductsData extends AppCompatActivity  {
     private Button button;
     private DataBaseForProducts databaseHelper;
     public Long dif;
+    private Date date12;
+    private Date date11;
     public Long datefor;
     private CalendarView calendarView;
     private DataBaseForProducts databaseHelper1;
@@ -42,13 +44,10 @@ public class ProductsData extends AppCompatActivity  {
         autoCompleteTextView.setThreshold(1);
         String[] products = getResources().getStringArray(R.array.products);
         List<String> productList = Arrays.asList(products);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_dropdown_item_1line, productList);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, productList);
         autoCompleteTextView.setAdapter(adapter);
         calendarView = (CalendarView) findViewById(R.id.calendarView_product);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            Date date12;
-            Date date11;
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 int mYear = year;
@@ -69,6 +68,14 @@ public class ProductsData extends AppCompatActivity  {
                     e.printStackTrace();
                 }
                   datefor = date11.getTime();
+                  if(date11.equals(date12)){
+                      try {
+                          Toast.makeText(ProductsData.this,"Выбрана текущая дата!",Toast.LENGTH_SHORT).show();
+                      }catch (Exception e){
+                          throw e;
+                      }
+
+                  }
                   dif = (date11.getTime() - date12.getTime()) / (24 * 60 * 60 * 1000);
             }
         });
@@ -78,12 +85,10 @@ public class ProductsData extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 String name = autoCompleteTextView.getText().toString();
-                if(!name.equals("") && databaseHelper.insertDataForHome(name,datefor)){
-
+                if(!name.equals("") && date11.after(date12) && databaseHelper.insertDataForHome(name,datefor)){
                     autoCompleteTextView.setText("");
                 }else{
                     Toast.makeText(ProductsData.this,"Продукт не был добавлен, попробуйте ещё раз",Toast.LENGTH_SHORT).show();
-                    autoCompleteTextView.setText("");
                 }
             }
         });

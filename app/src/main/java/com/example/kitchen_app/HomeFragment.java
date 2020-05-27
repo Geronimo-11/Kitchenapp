@@ -3,19 +3,12 @@ package com.example.kitchen_app;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,13 +19,10 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
-
 public class HomeFragment extends Fragment {
     private FloatingActionMenu floatingActionMenu;
     private DataBaseForProducts databaseHelper;
     private ArrayList<MyProduct> arrayList;
-    private MyProduct myProduct;
     private RecyclerView recyclerView;
     private RecyclerForHome adapter1;
     private View root;
@@ -73,17 +63,25 @@ public class HomeFragment extends Fragment {
     }
     public void viewData1(){
         Cursor cursor = databaseHelper.viewDataForHome();
-        if(cursor.getCount() == 0){
-            Toast.makeText(getContext(),"Добавьте продукт",Toast.LENGTH_SHORT).show();
-        }else{
             while (cursor.moveToNext()) {
                 arrayList.add(new MyProduct(cursor.getString(1), cursor.getLong(2),cursor.getInt(0)));
+                arrayList.sort(new Comparator<MyProduct>() {
+                    @Override
+                    public int compare(MyProduct o1, MyProduct o2) {
+                        if(o1.getProductDate() > o2.getProductDate()){
+                            return 1;
+                        }else if(o1.getProductDate() < o2.getProductDate()){
+                            return -1;
+                        }else{
+                            return 0;
+                        }
+                    }
+                });
             }
             adapter1 = new RecyclerForHome(root.getContext(), arrayList);
             recyclerView.setAdapter(adapter1);
             adapter1.notifyDataSetChanged();
         }
-    }
 
     @Override
     public void onResume() {

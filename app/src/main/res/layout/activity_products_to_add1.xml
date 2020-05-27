@@ -24,10 +24,18 @@
         android:textColor="#fff"
         android:hint="Начинайте вводить продукт"
         android:dropDownAnchor="@+id/autoCompleteTextView"/>
-    <TextView
+
+    <EditText
+        android:id="@+id/et1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="Количество"
+        android:inputType="number"
+        android:textColor="#FF9800"
+        android:textSize="20sp" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
