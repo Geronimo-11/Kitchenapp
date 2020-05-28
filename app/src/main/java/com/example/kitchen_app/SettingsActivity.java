@@ -13,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 
 public class SettingsActivity extends AppCompatActivity {
-private SwitchCompat switchCompat;
+private ImageButton imageButton;
+private ImageButton imageButton1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,17 +25,20 @@ private SwitchCompat switchCompat;
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle("Настройки");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        switchCompat = (SwitchCompat)findViewById(R.id.switchtoturn);
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(!isChecked){
+        imageButton = (ImageButton)findViewById(R.id.ibtn1);
+        imageButton1 = (ImageButton)findViewById(R.id.ibtn2);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }else{
+            }
+        });
+        imageButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-        }
-    });
+        });
 }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

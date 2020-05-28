@@ -5,6 +5,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <WebView
         android:layout_width="match_parent"
-        android:layout_height="694dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:id="@+id/web"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="18"/>
 </LinearLayout>
